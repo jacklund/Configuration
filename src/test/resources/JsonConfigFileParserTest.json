@@ -1,0 +1,12 @@
+{
+	"top": {
+		"foo": "foo",
+		"next": {
+			"foobar": 23,
+			"barf": "barfoo"
+		}
+	},
+	"other": {
+		"other": "other"
+	}
+}
