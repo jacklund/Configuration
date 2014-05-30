@@ -16,63 +16,66 @@ To do the command-line parsing, I'm using [args4j](http://args4j.kohsuke.org/), 
 ## Usage
 Typically, you would decorate the classes that require configuration with the appropriate annotations from args4j and Jackson (if necessary):
 
-    :::java
-    public class Foo {
-      private String bar;
-      private int baz;
-      
-      public String getBar() {
-        return bar;
-      }
-      
-      @Option(name = "--bar", usage = "the bar value")
-      public void setBar(String b) {
-        bar = b;
-      }
-      
-      public int getBaz() {
-        return baz;
-      }
-      
-      @Option(name = "--baz", usage = "the baz value")
-      public void setBaz(int b) {
-        baz = b;
-      }
-    }
-    
-    public class FooBar {
-      private Foo foo = new Foo();
-      
-      public Foo getFoo() {
-        return foo;
-      }
-    }
-    
-    public class MyService {
-      public static void main(String[] args) {
-        FooBar foobar = new FooBar();
-        CommandLineParser parser = new CommandLineParser(foobar);
-        parser.parse(args);
-      }
-    }
+```java
+public class Foo {
+  private String bar;
+  private int baz;
+  
+  public String getBar() {
+    return bar;
+  }
+  
+  @Option(name = "--bar", usage = "the bar value")
+  public void setBar(String b) {
+    bar = b;
+  }
+  
+  public int getBaz() {
+    return baz;
+  }
+  
+  @Option(name = "--baz", usage = "the baz value")
+  public void setBaz(int b) {
+    baz = b;
+  }
+}
+
+public class FooBar {
+  private Foo foo = new Foo();
+  
+  public Foo getFoo() {
+    return foo;
+  }
+}
+
+public class MyService {
+  public static void main(String[] args) {
+    FooBar foobar = new FooBar();
+    CommandLineParser parser = new CommandLineParser(foobar);
+    parser.parse(args);
+  }
+}
+```
 
 In this case, if you passed "``--bar myBarValue --baz 23``" on the command line, it would set the ``Foo`` instance in ``foobar`` with a ``bar`` value of "myBarValue", and a ``baz`` value of 23. Similarly, you could do the same thing in a configuration file with the following code:
 
-    :::java
-    public class MyService {
-      public static void main(String[] args) {
-        FooBar foobar = new FooBar();
-        JsonConfigFileParser parser = new JsonConfigFileParser("/path/to/config/file");
-        parser.configure(foobar);
-      }
-    }
+```java
+public class MyService {
+  public static void main(String[] args) {
+    FooBar foobar = new FooBar();
+    JsonConfigFileParser parser = new JsonConfigFileParser("/path/to/config/file");
+    parser.configure(foobar);
+  }
+}
+```
 
 and JSON file:
 
-    :::json
-    {
-      "foo": {
-        "bar": "myBarValue",
-        "baz": 23
-      }
-    }
+```json
+{
+  "foo": {
+    "bar": "myBarValue",
+    "baz": 23
+  }
+}
+```
